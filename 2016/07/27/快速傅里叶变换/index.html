@@ -1,0 +1,675 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数学," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="快速傅里叶变换具体原理参阅『算法导论』。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="快速傅里叶变换">
+<meta property="og:url" content="http://mfasta.com/2016/07/27/快速傅里叶变换/index.html">
+<meta property="og:site_name" content="魔法师の高塔">
+<meta property="og:description" content="快速傅里叶变换具体原理参阅『算法导论』。">
+<meta property="og:updated_time" content="2016-08-06T15:39:24.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="快速傅里叶变换">
+<meta name="twitter:description" content="快速傅里叶变换具体原理参阅『算法导论』。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://mfasta.com/2016/07/27/快速傅里叶变换/"/>
+
+
+
+
+
+  <title> 快速傅里叶变换 | 魔法师の高塔 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">魔法师の高塔</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">借我心羽 到绝高处 环抱烟霞独一人 拓吾眼思 出樊篱间 纵横意气越千载</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://mfasta.com/2016/07/27/快速傅里叶变换/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="周晓林">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.JPG">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="魔法师の高塔">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="魔法师の高塔" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                快速傅里叶变换
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-07-27T01:16:33+08:00">
+                2016-07-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/编程/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>快速傅里叶变换具体原理参阅『算法导论』。<br><a id="more"></a><br>用rust实现如下:</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">use</span> std::ops::&#123;Add, AddAssign, Mul, Div&#125;;</div><div class="line"><span class="keyword">use</span> std::<span class="keyword">f32</span>;</div><div class="line"><span class="keyword">static</span> PI: <span class="keyword">f32</span> = <span class="number">3.1415926535</span>;</div><div class="line"></div><div class="line"><span class="meta">#[derive(Debug,Clone,Copy)]</span></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Complex</span></span> &#123;</div><div class="line">    real: <span class="keyword">f32</span>,</div><div class="line">    image: <span class="keyword">f32</span>,</div><div class="line">&#125;</div><div class="line"><span class="keyword">impl</span> Complex &#123;</div><div class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">new</span></span>(real: <span class="keyword">f32</span>, image: <span class="keyword">f32</span>) -&gt; <span class="keyword">Self</span> &#123;</div><div class="line">        Complex &#123;</div><div class="line">            real: real,</div><div class="line">            image: image,</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">quick_pow</span></span>(&amp;<span class="keyword">self</span>, n: <span class="keyword">usize</span>) -&gt; <span class="keyword">Self</span> &#123;</div><div class="line">        <span class="keyword">match</span> n &#123;</div><div class="line">            <span class="number">0</span> =&gt; Complex::new(<span class="number">1f32</span>, <span class="number">0f32</span>),</div><div class="line">            <span class="number">1</span> =&gt; *<span class="keyword">self</span>,</div><div class="line">            _ <span class="keyword">if</span> n % <span class="number">2</span> == <span class="number">0</span> =&gt; &#123;</div><div class="line">                <span class="keyword">let</span> a = <span class="keyword">self</span>.quick_pow(n &gt;&gt; <span class="number">1</span>);</div><div class="line">                a * a</div><div class="line">            &#125;</div><div class="line">            _ =&gt; &#123;</div><div class="line">                <span class="keyword">let</span> a = <span class="keyword">self</span>.quick_pow(n - <span class="number">1</span>);</div><div class="line">                (*<span class="keyword">self</span>) * a</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">impl</span> Add <span class="keyword">for</span> Complex &#123;</div><div class="line">    <span class="class"><span class="keyword">type</span> <span class="title">Output</span></span> = Complex;</div><div class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">add</span></span>(<span class="keyword">self</span>, comp: Complex) -&gt; Complex &#123;</div><div class="line">        Complex &#123;</div><div class="line">            real: <span class="keyword">self</span>.real + comp.real,</div><div class="line">            image: <span class="keyword">self</span>.image + comp.image,</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">impl</span> AddAssign <span class="keyword">for</span> Complex &#123;</div><div class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">add_assign</span></span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>, comp: Complex) &#123;</div><div class="line">        <span class="keyword">self</span>.real = <span class="keyword">self</span>.real + comp.real;</div><div class="line">        <span class="keyword">self</span>.image = <span class="keyword">self</span>.image + comp.image;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">impl</span> Mul <span class="keyword">for</span> Complex &#123;</div><div class="line">    <span class="class"><span class="keyword">type</span> <span class="title">Output</span></span> = Complex;</div><div class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">mul</span></span>(<span class="keyword">self</span>, comp: Complex) -&gt; Complex &#123;</div><div class="line">        Complex &#123;</div><div class="line">            real: <span class="keyword">self</span>.real * comp.real - <span class="keyword">self</span>.image * comp.image,</div><div class="line">            image: <span class="keyword">self</span>.real * comp.image + <span class="keyword">self</span>.image * comp.real,</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">impl</span> Div <span class="keyword">for</span> Complex &#123;</div><div class="line">    <span class="class"><span class="keyword">type</span> <span class="title">Output</span></span> = Complex;</div><div class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">div</span></span>(<span class="keyword">self</span>, comp: Complex) -&gt; Complex &#123;</div><div class="line">        <span class="keyword">let</span> distance = comp.real * comp.real + comp.image * comp.image;</div><div class="line">        Complex &#123;</div><div class="line">            real: (<span class="keyword">self</span>.real * comp.real + <span class="keyword">self</span>.image * comp.image) / distance,</div><div class="line">            image: (<span class="keyword">self</span>.image * comp.real - <span class="keyword">self</span>.real * comp.image) / distance,</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">fn</span> <span class="title">dft</span></span>(num: <span class="built_in">Vec</span>&lt;Complex&gt;, res: <span class="keyword">bool</span>) -&gt; <span class="built_in">Vec</span>&lt;Complex&gt; &#123;</div><div class="line">    <span class="keyword">let</span> <span class="keyword">mut</span> root_vec: <span class="built_in">Vec</span>&lt;Complex&gt; = <span class="built_in">Vec</span>::new();</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span>..num.len() &#123;</div><div class="line">        <span class="keyword">let</span> value: <span class="keyword">f32</span> = PI / <span class="number">4f32</span> * (i <span class="keyword">as</span> <span class="keyword">f32</span>);</div><div class="line">        root_vec.push(Complex::new(value.cos(), value.sin()))</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">let</span> <span class="keyword">mut</span> result: <span class="built_in">Vec</span>&lt;Complex&gt; = <span class="built_in">Vec</span>::new();</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span>..num.len() &#123;</div><div class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> x: Complex = Complex::new(<span class="number">0f32</span>, <span class="number">0f32</span>);</div><div class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="number">0</span>..num.len() &#123;</div><div class="line">            <span class="keyword">if</span> res == <span class="literal">true</span> &#123;</div><div class="line">                x += num[j] / root_vec[j].quick_pow(i) / Complex::new(num.len() <span class="keyword">as</span> <span class="keyword">f32</span>, <span class="number">0f32</span>)</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                x += num[j] * root_vec[j].quick_pow(i)</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        result.push(x)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    result</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">fn</span> <span class="title">vecf322veccomplex</span></span>(num: <span class="built_in">Vec</span>&lt;<span class="keyword">f32</span>&gt;) -&gt; <span class="built_in">Vec</span>&lt;Complex&gt; &#123;</div><div class="line">    <span class="keyword">let</span> <span class="keyword">mut</span> result: <span class="built_in">Vec</span>&lt;Complex&gt; = <span class="built_in">Vec</span>::new();</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span>..num.len() &#123;</div><div class="line">        result.push(Complex::new(num[i], <span class="number">0f32</span>))</div><div class="line">    &#125;</div><div class="line">    result</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">fn</span> <span class="title">mul_vec_complex</span></span>(num1: <span class="built_in">Vec</span>&lt;Complex&gt;, num2: <span class="built_in">Vec</span>&lt;Complex&gt;) -&gt; <span class="built_in">Vec</span>&lt;Complex&gt; &#123;</div><div class="line">    <span class="keyword">let</span> <span class="keyword">mut</span> result = <span class="built_in">Vec</span>::new();</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span>..num1.len() &#123;</div><div class="line">        result.push(num1[i] * num2[i])</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    result</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">fn</span> <span class="title">add_vec_complex</span></span>(num1: <span class="built_in">Vec</span>&lt;Complex&gt;, num2: <span class="built_in">Vec</span>&lt;Complex&gt;) -&gt; <span class="built_in">Vec</span>&lt;Complex&gt; &#123;</div><div class="line">    <span class="keyword">let</span> <span class="keyword">mut</span> result = <span class="built_in">Vec</span>::new();</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span>..num1.len() &#123;</div><div class="line">        result.push(num1[i] + num2[i])</div><div class="line">    &#125;</div><div class="line">    result</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">fn</span> <span class="title">dft2vec</span></span>(num: <span class="built_in">Vec</span>&lt;Complex&gt;) -&gt; <span class="built_in">Vec</span>&lt;<span class="keyword">f32</span>&gt; &#123;</div><div class="line">    <span class="keyword">let</span> <span class="keyword">mut</span> result1 = <span class="built_in">Vec</span>::new();</div><div class="line">    <span class="keyword">for</span> value <span class="keyword">in</span> num &#123;</div><div class="line">        result1.push(value.real.round())</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">let</span> <span class="keyword">mut</span> result = <span class="built_in">Vec</span>::new();</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span>..result1.len() &#123;</div><div class="line">        <span class="keyword">if</span> result1[i] &gt; <span class="number">10.0</span> &#123;</div><div class="line">            <span class="keyword">let</span> a = (result1[i] / <span class="number">10.0</span>).trunc();</div><div class="line"></div><div class="line">            result.push(result1[i] - a * <span class="number">10.0</span>);</div><div class="line">            result1[i + <span class="number">1</span>] += a;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            result.push(result1[i])</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    result</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">fn</span> <span class="title">main</span></span>() &#123;</div><div class="line"></div><div class="line">    <span class="keyword">let</span> do1 = <span class="built_in">vec!</span>[<span class="number">1.0</span>, <span class="number">3.0</span>, <span class="number">3.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>];</div><div class="line">    <span class="keyword">let</span> do2 = <span class="built_in">vec!</span>[<span class="number">3.0</span>, <span class="number">2.0</span>, <span class="number">4.0</span>, <span class="number">3.0</span>, <span class="number">2.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>];</div><div class="line"></div><div class="line">    <span class="keyword">let</span> dft1 = dft(vecf322veccomplex(do1), <span class="literal">false</span>);</div><div class="line">    <span class="keyword">let</span> dft2 = dft(vecf322veccomplex(do2), <span class="literal">false</span>);</div><div class="line"></div><div class="line">    <span class="keyword">let</span> reserve_dft = dft(mul_vec_complex(dft1, dft2), <span class="literal">true</span>);</div><div class="line"></div><div class="line">    <span class="built_in">println!</span>(<span class="string">"&#123;:?&#125;"</span>, <span class="number">331</span> * <span class="number">23423</span>);</div><div class="line">    <span class="built_in">println!</span>(<span class="string">"&#123;:?&#125;"</span>, reserve_dft);</div><div class="line">    <span class="built_in">println!</span>(<span class="string">"&#123;:?&#125;"</span>, dft2vec(reserve_dft));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="快速傅里叶变换"><a href="#快速傅里叶变换" class="headerlink" title="快速傅里叶变换"></a>快速傅里叶变换</h3><figure class="highlight rust"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">fn</span> <span class="title">fft</span></span>(num: <span class="built_in">Vec</span>&lt;Complex&gt;, res: <span class="keyword">bool</span>) -&gt; <span class="built_in">Vec</span>&lt;Complex&gt; &#123;</div><div class="line">    <span class="keyword">if</span> num.len() == <span class="number">1</span> &#123;</div><div class="line">        num</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">let</span> w: <span class="keyword">f32</span> = <span class="number">2f32</span> * PI / (num.len() <span class="keyword">as</span> <span class="keyword">f32</span>);</div><div class="line">        <span class="keyword">let</span> root = Complex::new(w.cos(), w.sin());</div><div class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> a0 = <span class="built_in">Vec</span>::new();</div><div class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> a1 = <span class="built_in">Vec</span>::new();</div><div class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> result = <span class="built_in">Vec</span>::new();</div><div class="line">        <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="number">0</span>..num.len() &#123;</div><div class="line">            result.push(Complex::new(<span class="number">0f32</span>, <span class="number">0f32</span>));</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span>..num.len() &#123;</div><div class="line">            <span class="keyword">if</span> i % <span class="number">2</span> == <span class="number">0</span> &#123;</div><div class="line">                a0.push(num[i]);</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                a1.push(num[i]);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        a0 = fft(a0, res);</div><div class="line">        a1 = fft(a1, res);</div><div class="line"></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span>..num.len() / <span class="number">2</span> &#123;</div><div class="line">            <span class="keyword">if</span> res == <span class="literal">true</span> &#123;</div><div class="line">                <span class="keyword">let</span> val = Complex::new(<span class="number">0.5</span>, <span class="number">0f32</span>);</div><div class="line">                result[i] += val * (a0[i] + a1[i] / root.quick_pow(i));</div><div class="line">                result[i + num.len() / <span class="number">2</span>] += val * (a0[i] - a1[i] / root.quick_pow(i));</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                result[i] += a0[i] + a1[i] * root.quick_pow(i);</div><div class="line">                result[i + num.len() / <span class="number">2</span>] += a0[i] - a1[i] * root.quick_pow(i);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        result</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数学/" rel="tag"># 数学</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/07/Rust学习-三/" rel="next" title="Rust学习 三">
+                <i class="fa fa-chevron-left"></i> Rust学习 三
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/29/快速数论变换/" rel="prev" title="快速数论变换">
+                快速数论变换 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.JPG"
+               alt="周晓林" />
+          <p class="site-author-name" itemprop="name">周晓林</p>
+          <p class="site-description motion-element" itemprop="description">学习，背诵，提高知识水平。跑步，讲话，与人谈笑风生。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ZhouXiaolin" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#快速傅里叶变换"><span class="nav-number">1.</span> <span class="nav-text">快速傅里叶变换</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2013 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">周晓林</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

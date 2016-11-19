@@ -1,0 +1,660 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Swift," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Bool可以算是最简单的数据类型，它是枚举定义。1234enum Bool&amp;#123;  case True  case False&amp;#125;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift函数式编程-三">
+<meta property="og:url" content="http://mfasta.com/2016/05/25/Swift函数式编程-三/index.html">
+<meta property="og:site_name" content="魔法师の高塔">
+<meta property="og:description" content="Bool可以算是最简单的数据类型，它是枚举定义。1234enum Bool&amp;#123;  case True  case False&amp;#125;">
+<meta property="og:updated_time" content="2016-08-06T15:38:45.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Swift函数式编程-三">
+<meta name="twitter:description" content="Bool可以算是最简单的数据类型，它是枚举定义。1234enum Bool&amp;#123;  case True  case False&amp;#125;">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://mfasta.com/2016/05/25/Swift函数式编程-三/"/>
+
+
+
+
+
+  <title> Swift函数式编程-三 | 魔法师の高塔 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">魔法师の高塔</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">借我心羽 到绝高处 环抱烟霞独一人 拓吾眼思 出樊篱间 纵横意气越千载</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://mfasta.com/2016/05/25/Swift函数式编程-三/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="周晓林">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.JPG">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="魔法师の高塔">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="魔法师の高塔" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Swift函数式编程-三
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-05-25T22:33:10+08:00">
+                2016-05-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/编程/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><code>Bool</code>可以算是最简单的数据类型，它是枚举定义。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">Bool</span></span>&#123;</div><div class="line">  <span class="keyword">case</span> <span class="type">True</span></div><div class="line">  <span class="keyword">case</span> <span class="type">False</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>而不少类型里面包含着数据，就像把这种数据用箱子装了起来，比如<code>Option</code>。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">Option</span>&lt;<span class="title">A</span>&gt;</span>&#123;</div><div class="line">  <span class="keyword">case</span> <span class="type">None</span></div><div class="line">  <span class="keyword">case</span> <span class="type">Some</span>(a)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>对，他就是Swift里的Optional数据类型。<br>我们来具体应用一下。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">indirect</span> <span class="class"><span class="keyword">enum</span> <span class="title">Expr</span></span>&#123;</div><div class="line">    <span class="keyword">case</span> <span class="type">Num</span>(<span class="type">Int</span>)</div><div class="line">    <span class="keyword">case</span> <span class="type">Neg</span>(<span class="type">Expr</span>)</div><div class="line">    <span class="keyword">case</span> <span class="type">Add</span>(<span class="type">Expr</span>,<span class="type">Expr</span>)</div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Expr</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">eval</span><span class="params">()</span></span> -&gt; <span class="type">Int</span> &#123;</div><div class="line">        <span class="keyword">switch</span> <span class="keyword">self</span>&#123;</div><div class="line">        <span class="keyword">case</span> .<span class="type">Num</span>(<span class="keyword">let</span> n):</div><div class="line">            <span class="keyword">return</span> n</div><div class="line">        <span class="keyword">case</span> .<span class="type">Neg</span>(<span class="keyword">let</span> e):</div><div class="line">            <span class="keyword">return</span> -e.eval()</div><div class="line">        <span class="keyword">case</span> .<span class="type">Add</span>(<span class="keyword">let</span> e1,<span class="keyword">let</span> e2):</div><div class="line">            <span class="keyword">return</span> e1.eval()+e2.eval()</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><code>Expr</code>是一个只有整数、负号和加法的数学式子，<code>eval</code>就是计算这个式子。如果我们添加了一个整数除法单元，怎么处理分母为零的情况呢？<br>可以使用<code>Option</code>,当分母为零时，返回<code>Option.None</code>就可以了。那么更新后的程序如下:<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">indirect</span> <span class="class"><span class="keyword">enum</span> <span class="title">Expr</span></span>&#123;</div><div class="line">    <span class="keyword">case</span> <span class="type">Num</span>(<span class="type">Int</span>)</div><div class="line">    <span class="keyword">case</span> <span class="type">Neg</span>(<span class="type">Expr</span>)</div><div class="line">    <span class="keyword">case</span> <span class="type">Add</span>(<span class="type">Expr</span>,<span class="type">Expr</span>)</div><div class="line">    <span class="keyword">case</span> <span class="type">Div</span>(<span class="type">Expr</span>,<span class="type">Expr</span>)</div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Expr</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">eval</span><span class="params">()</span></span> -&gt; <span class="type">Option</span>&lt;<span class="type">Int</span>&gt; &#123;</div><div class="line">        <span class="keyword">switch</span> <span class="keyword">self</span>&#123;</div><div class="line">        <span class="keyword">case</span> .<span class="type">Num</span>(<span class="keyword">let</span> n):</div><div class="line">            <span class="keyword">return</span> .<span class="type">Some</span>(n)</div><div class="line">        <span class="keyword">case</span> .<span class="type">Neg</span>(<span class="keyword">let</span> e):</div><div class="line">            <span class="keyword">switch</span> e.eval()&#123;</div><div class="line">            <span class="keyword">case</span> .<span class="type">Some</span>(<span class="keyword">let</span> v):</div><div class="line">                <span class="keyword">return</span> .<span class="type">Some</span>(-v)</div><div class="line">            <span class="keyword">case</span> .<span class="type">None</span>:</div><div class="line">                <span class="keyword">return</span> .<span class="type">None</span></div><div class="line">            &#125;</div><div class="line">        <span class="keyword">case</span> .<span class="type">Add</span>(<span class="keyword">let</span> e1,<span class="keyword">let</span> e2):</div><div class="line">            <span class="keyword">switch</span> e1.eval()&#123;</div><div class="line">            <span class="keyword">case</span> .<span class="type">Some</span>(<span class="keyword">let</span> v1):</div><div class="line">                <span class="keyword">switch</span> e2.eval()&#123;</div><div class="line">                <span class="keyword">case</span> .<span class="type">Some</span>(<span class="keyword">let</span> v2):</div><div class="line">                    <span class="keyword">return</span> .<span class="type">Some</span>(v1+v2)</div><div class="line">                <span class="keyword">case</span> .<span class="type">None</span>:</div><div class="line">                    <span class="keyword">return</span> .<span class="type">None</span></div><div class="line">                &#125;</div><div class="line">            <span class="keyword">case</span> .<span class="type">None</span>:</div><div class="line">                <span class="keyword">return</span> .<span class="type">None</span></div><div class="line">            &#125;</div><div class="line">        <span class="keyword">case</span> .<span class="type">Div</span>(<span class="keyword">let</span> e1,<span class="keyword">let</span> e2):</div><div class="line">            <span class="keyword">switch</span> e2.eval()&#123;</div><div class="line">            <span class="keyword">case</span> .<span class="type">Some</span>(<span class="number">0</span>):</div><div class="line">                <span class="keyword">return</span> .<span class="type">None</span></div><div class="line">            <span class="keyword">case</span> .<span class="type">Some</span>(<span class="keyword">let</span> v2):</div><div class="line">                <span class="keyword">switch</span> e1.eval()&#123;</div><div class="line">                <span class="keyword">case</span> .<span class="type">Some</span>(<span class="keyword">let</span> v1):</div><div class="line">                    <span class="keyword">return</span> .<span class="type">Some</span>(v1 / v2)</div><div class="line">                <span class="keyword">case</span> .<span class="type">None</span>:</div><div class="line">                    <span class="keyword">return</span> .<span class="type">None</span></div><div class="line">                &#125;</div><div class="line">            <span class="keyword">case</span> .<span class="type">None</span>:</div><div class="line">                <span class="keyword">return</span> .<span class="type">None</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>仔细观察上面那些冗长的匹配语句，会发现都有这种模式：如果e.eval()有值，那么把值传给一个这样的函数，<code>Int -&gt; Option&lt;Int&gt;</code>，然后继续运算。我们可以定义如下函数：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Option</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">map</span>&lt;B&gt;<span class="params">(f: A -&gt; B)</span></span> -&gt; <span class="type">Option</span>&lt;<span class="type">B</span>&gt; &#123;</div><div class="line">        <span class="keyword">switch</span> <span class="keyword">self</span>&#123;</div><div class="line">        <span class="keyword">case</span> .<span class="type">None</span>:</div><div class="line">            <span class="keyword">return</span> <span class="type">Option</span>&lt;<span class="type">B</span>&gt;.<span class="type">None</span></div><div class="line">        <span class="keyword">case</span> .<span class="type">Some</span>(<span class="keyword">let</span> a):</div><div class="line">            <span class="keyword">return</span> <span class="type">Option</span>&lt;<span class="type">B</span>&gt;.<span class="type">Some</span>(f(a))</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">flatMap</span>&lt;B&gt;<span class="params">(f: A -&gt; Option&lt;B&gt;)</span></span> -&gt; <span class="type">Option</span>&lt;<span class="type">B</span>&gt;&#123;</div><div class="line">        <span class="keyword">switch</span> <span class="keyword">self</span>&#123;</div><div class="line">        <span class="keyword">case</span> .<span class="type">None</span>:</div><div class="line">            <span class="keyword">return</span> <span class="type">Option</span>&lt;<span class="type">B</span>&gt;.<span class="type">None</span></div><div class="line">        <span class="keyword">case</span> .<span class="type">Some</span>(<span class="keyword">let</span> a):</div><div class="line">            <span class="keyword">return</span> f(a)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>然后eval函数可以变为这样：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Expr</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">eval</span><span class="params">()</span></span> -&gt; <span class="type">Option</span>&lt;<span class="type">Int</span>&gt; &#123;</div><div class="line">        <span class="keyword">switch</span> <span class="keyword">self</span>&#123;</div><div class="line">        <span class="keyword">case</span> <span class="keyword">let</span> .<span class="type">Num</span>(n):</div><div class="line">            <span class="keyword">return</span> .<span class="type">Some</span>(n)</div><div class="line">        <span class="keyword">case</span> <span class="keyword">let</span> .<span class="type">Neg</span>(e):</div><div class="line">            <span class="keyword">return</span> e.eval().flatMap(&#123; .<span class="type">Some</span>(<span class="number">0</span> - $<span class="number">0</span> ) &#125;)</div><div class="line">        <span class="keyword">case</span> <span class="keyword">let</span> .<span class="type">Add</span>(e1,e2):</div><div class="line">            <span class="keyword">return</span> e1.eval().flatMap(&#123; x <span class="keyword">in</span> e2.eval().flatMap(&#123; .<span class="type">Some</span>(x + $<span class="number">0</span>)&#125;)&#125;)</div><div class="line">        <span class="keyword">case</span> <span class="keyword">let</span> .<span class="type">Div</span>(e1,e2):</div><div class="line">            <span class="keyword">return</span> e2.eval().flatMap(&#123;x <span class="keyword">in</span></div><div class="line">                <span class="keyword">if</span>(x == <span class="number">0</span> )&#123;</div><div class="line">                    <span class="keyword">return</span> .<span class="type">None</span></div><div class="line">                &#125;<span class="keyword">else</span>&#123;</div><div class="line">                    <span class="keyword">return</span> e1.eval().flatMap(&#123; .<span class="type">Some</span>($<span class="number">0</span>/x)&#125;)</div><div class="line">                &#125;</div><div class="line">            &#125;)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这样看上去好多了吧？</p>
+<p>这个<code>flatMap</code>函数可以说贯穿了整个函数式编程，它的类型是<code>T a -&gt; (a -&gt; T b) -&gt; T b</code>。如何理解这个函数，你只需要把他当做一种计算方式就行了。  </p>
+<p>前文中的<code>List</code>，也可以总结出这两个函数。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">List</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">append</span><span class="params">(l: List&lt;T&gt;)</span></span> -&gt; <span class="type">List</span>&lt;<span class="type">T</span>&gt;&#123;</div><div class="line">        <span class="keyword">switch</span> <span class="keyword">self</span>&#123;</div><div class="line">        <span class="keyword">case</span> .<span class="type">Nil</span>:</div><div class="line">            <span class="keyword">return</span> l</div><div class="line">        <span class="keyword">case</span> .<span class="type">Cons</span>(<span class="keyword">let</span> h,<span class="keyword">let</span> t):</div><div class="line">            <span class="keyword">return</span> <span class="type">List</span>.<span class="type">Cons</span>(h, t.append(l))</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">map</span>&lt;B&gt;<span class="params">(f: T -&gt; B)</span></span> -&gt; <span class="type">List</span>&lt;<span class="type">B</span>&gt; &#123;</div><div class="line">        <span class="keyword">switch</span> <span class="keyword">self</span>&#123;</div><div class="line">        <span class="keyword">case</span> .<span class="type">Nil</span>:</div><div class="line">            <span class="keyword">return</span> <span class="type">List</span>&lt;<span class="type">B</span>&gt;.<span class="type">Nil</span></div><div class="line">        <span class="keyword">case</span> .<span class="type">Cons</span>(<span class="keyword">let</span> h,<span class="keyword">let</span> t):</div><div class="line">            <span class="keyword">return</span> <span class="type">List</span>&lt;<span class="type">B</span>&gt;.<span class="type">Cons</span>(f(h), t.<span class="built_in">map</span>(f))</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">flatMap</span>&lt;B&gt;<span class="params">(f: T -&gt; List&lt;B&gt;)</span></span> -&gt; <span class="type">List</span>&lt;<span class="type">B</span>&gt;&#123;</div><div class="line">        <span class="keyword">switch</span> <span class="keyword">self</span>&#123;</div><div class="line">        <span class="keyword">case</span> .<span class="type">Nil</span>:</div><div class="line">            <span class="keyword">return</span> <span class="type">List</span>&lt;<span class="type">B</span>&gt;.<span class="type">Nil</span></div><div class="line">        <span class="keyword">case</span> .<span class="type">Cons</span>(<span class="keyword">let</span> h,<span class="keyword">let</span> t):</div><div class="line">            <span class="keyword">return</span> f(h).append(t.flatMap(f))</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><code>List</code>的<code>map</code>函数，就非常直观了，把一个函数作用于List的每一个元素上，产生一个新的List。<code>flatMap</code>亦是如此，不同的是，<code>flatMap</code>作用于每一个List元素产生新List，最后会把其中的元素取出来又组成一个新的List。<br>List的<code>map</code>是很好理解的，<code>flatMap</code>的应用场景描述一下，也就该知道了。<br>假如有这么一个<code>List&lt;String&gt;</code>为People，里面的元素都是一些人名，我们还有一个函数<code>String -&gt; List&lt;String&gt;</code>为friend，这个函数是由这些人名得到这些人的朋友们的名字，将函数friend<code>map</code>到这个<code>List</code>,得到了一个类型为<code>List&lt;List&lt;String&gt;&gt;</code>的东西，但这个不是我们的目标，要求这些人的朋友的名字组成一个新的<code>List&lt;String&gt;</code>,这个时候，我们应该使用<code>flatMap</code>。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">friend</span><span class="params">(name: String)</span></span>-&gt; <span class="type">List</span>&lt;<span class="type">String</span>&gt;&#123;</div><div class="line">    <span class="keyword">if</span>(name == <span class="string">"q"</span>)&#123;</div><div class="line">        <span class="keyword">return</span> [<span class="string">"qq1"</span>,<span class="string">"qq2"</span>,<span class="string">"qq3"</span>].list</div><div class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(name == <span class="string">"w"</span>)&#123;</div><div class="line">        <span class="keyword">return</span> [<span class="string">"ww1"</span>,<span class="string">"ww2"</span>,<span class="string">"ww3"</span>].list</div><div class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(name == <span class="string">"e"</span>)&#123;</div><div class="line">        <span class="keyword">return</span> [<span class="string">"ee1"</span>,<span class="string">"ee2"</span>,<span class="string">"ee3"</span>,<span class="string">"ee4"</span>].list</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="keyword">return</span> [<span class="string">"rr1"</span>,<span class="string">"rr2"</span>].list</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">let</span> a = [<span class="string">"q"</span>,<span class="string">"r"</span>,<span class="string">"w"</span>,<span class="string">"e"</span>].list</div><div class="line">a.flatMap(friend).list</div></pre></td></tr></table></figure></p>
+<p>当然，其实Swift中的数组已经实现了这两个函数<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> a = [<span class="string">"q"</span>,<span class="string">"r"</span>,<span class="string">"w"</span>,<span class="string">"e"</span>]</div><div class="line">a.<span class="built_in">map</span>(friend)</div><div class="line">a.flatMap(friend)</div></pre></td></tr></table></figure></p>
+<p>你可以对比一下</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Swift/" rel="tag"># Swift</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/25/Swift函数式编程-二/" rel="next" title="Swift函数式编程 二">
+                <i class="fa fa-chevron-left"></i> Swift函数式编程 二
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/05/27/Swift函数式编程-四/" rel="prev" title="Swift函数式编程-四">
+                Swift函数式编程-四 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.JPG"
+               alt="周晓林" />
+          <p class="site-author-name" itemprop="name">周晓林</p>
+          <p class="site-description motion-element" itemprop="description">学习，背诵，提高知识水平。跑步，讲话，与人谈笑风生。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ZhouXiaolin" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2013 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">周晓林</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
