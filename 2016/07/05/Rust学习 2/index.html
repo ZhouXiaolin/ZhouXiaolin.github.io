@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="算法," />
+  <meta name="keywords" content="Semigroup," />
 
 
 
@@ -84,16 +84,16 @@
 
 
 
-<meta name="description" content="梯度下降算法基于一个不言自喻的事实，极值处于梯度下降的方向。$f(x,y)=2x^2+y^2-2xy+x-3y+7$">
+<meta name="description" content="快速幂算法是计算幂的常用分治算法。从共性上讲，快速斐波那契数列计算也归到此类中。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="梯度下降算法">
-<meta property="og:url" content="http://mfasta.com/2016/07/31/梯度下降算法/index.html">
+<meta property="og:title" content="Rust学习——二">
+<meta property="og:url" content="http://mfasta.com/2016/07/05/Rust学习 2/index.html">
 <meta property="og:site_name" content="魔法师の高塔">
-<meta property="og:description" content="梯度下降算法基于一个不言自喻的事实，极值处于梯度下降的方向。$f(x,y)=2x^2+y^2-2xy+x-3y+7$">
-<meta property="og:updated_time" content="2016-08-06T15:40:23.000Z">
+<meta property="og:description" content="快速幂算法是计算幂的常用分治算法。从共性上讲，快速斐波那契数列计算也归到此类中。">
+<meta property="og:updated_time" content="2016-08-14T18:37:14.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="梯度下降算法">
-<meta name="twitter:description" content="梯度下降算法基于一个不言自喻的事实，极值处于梯度下降的方向。$f(x,y)=2x^2+y^2-2xy+x-3y+7$">
+<meta name="twitter:title" content="Rust学习——二">
+<meta name="twitter:description" content="快速幂算法是计算幂的常用分治算法。从共性上讲，快速斐波那契数列计算也归到此类中。">
 
 
 
@@ -121,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="http://mfasta.com/2016/07/31/梯度下降算法/"/>
+  <link rel="canonical" href="http://mfasta.com/2016/07/05/Rust学习 2/"/>
 
 
 
 
 
-  <title> 梯度下降算法 | 魔法师の高塔 </title>
+  <title> Rust学习——二 | 魔法师の高塔 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -258,7 +258,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://mfasta.com/2016/07/31/梯度下降算法/">
+  <link itemprop="mainEntityOfPage" href="http://mfasta.com/2016/07/05/Rust学习 2/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="周晓林">
@@ -282,7 +282,7 @@
             
             
               
-                梯度下降算法
+                Rust学习——二
               
             
           </h1>
@@ -295,8 +295,8 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-07-31T13:12:01+08:00">
-                2016-07-31
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-07-05T20:42:40+08:00">
+                2016-07-05
               </time>
             
 
@@ -349,11 +349,9 @@
       
 
       
-        <p>梯度下降算法基于一个不言自喻的事实，极值处于梯度下降的方向。<br>$f(x,y)=2x^2+y^2-2xy+x-3y+7$</p>
-<a id="more"></a>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">fn</span> <span class="title">function</span></span>(x: (<span class="keyword">f32</span>, <span class="keyword">f32</span>)) -&gt; <span class="keyword">f32</span> &#123;</div><div class="line">    <span class="keyword">return</span> <span class="number">2.0</span> * x.<span class="number">0</span> * x.<span class="number">0</span> + x.<span class="number">1</span> * x.<span class="number">1</span> - <span class="number">2.0</span> * x.<span class="number">0</span> * x.<span class="number">1</span> + x.<span class="number">0</span> - <span class="number">3.0</span> * x.<span class="number">1</span> + <span class="number">7.0</span>;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">fn</span> <span class="title">derivative_function</span></span>(x: (<span class="keyword">f32</span>, <span class="keyword">f32</span>)) -&gt; (<span class="keyword">f32</span>, <span class="keyword">f32</span>) &#123;</div><div class="line">    <span class="keyword">return</span> (<span class="number">4.0</span> * x.<span class="number">0</span> - <span class="number">2.0</span> * x.<span class="number">1</span> + <span class="number">1.0</span>, <span class="number">2.0</span> * x.<span class="number">1</span> - <span class="number">2.0</span> * x.<span class="number">0</span> - <span class="number">3.0</span>);</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">fn</span> <span class="title">main</span></span>() &#123;</div><div class="line">    <span class="keyword">let</span> e = <span class="number">0.000001</span>;</div><div class="line">    <span class="keyword">let</span> alpha = <span class="number">0.3</span>;</div><div class="line">    <span class="keyword">let</span> <span class="keyword">mut</span> x0 = (<span class="number">0.0</span>, <span class="number">0.0</span>);</div><div class="line">    <span class="keyword">let</span> <span class="keyword">mut</span> y0 = function(x0);</div><div class="line">    <span class="keyword">loop</span> &#123;</div><div class="line">        x0 = (x0.<span class="number">0</span> - alpha * derivative_function(x0).<span class="number">0</span>, x0.<span class="number">1</span> - alpha * derivative_function(x0).<span class="number">1</span>);</div><div class="line">        <span class="keyword">let</span> y1 = function(x0);</div><div class="line">        <span class="keyword">if</span> (y1 - y0).abs() &lt; e &#123;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">        y0 = y1;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="built_in">println!</span>(<span class="string">"&#123;&#125;"</span>, y0);</div><div class="line">    <span class="built_in">println!</span>(<span class="string">"&#123;:?&#125;"</span>, x0);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>在线性回归中，梯度下降算法也是非常重要的。<br><figure class="highlight rust"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">fn</span> <span class="title">main</span></span>() &#123;</div><div class="line">  <span class="comment">//训练数据集</span></div><div class="line">  <span class="comment">// 自变量x (x0,x1)</span></div><div class="line">    <span class="keyword">let</span> x = <span class="built_in">vec!</span>[(<span class="number">1.0</span>, <span class="number">1.05</span>), (<span class="number">1.0</span>, <span class="number">1.9</span>), (<span class="number">1.0</span>, <span class="number">3.06</span>), (<span class="number">1.0</span>, <span class="number">4.66</span>), (<span class="number">1.0</span>, <span class="number">6.84</span>), (<span class="number">1.0</span>, <span class="number">7.95</span>)];</div><div class="line">    <span class="comment">// 假设函数 h(x) = theta0 + theta1*x</span></div><div class="line">    <span class="keyword">let</span> y = <span class="built_in">vec!</span>[<span class="number">10.7</span>, <span class="number">18.7</span>, <span class="number">29.8</span>, <span class="number">49.3</span>, <span class="number">70.2</span>, <span class="number">80.2</span>];</div><div class="line"></div><div class="line">    <span class="keyword">let</span> epsilon = <span class="number">0.0000001</span>;<span class="comment">//收敛精度</span></div><div class="line">    <span class="keyword">let</span> alpha = <span class="number">0.005</span>; <span class="comment">//迭代步长</span></div><div class="line">    <span class="keyword">let</span> <span class="keyword">mut</span> error0 = <span class="number">0.0</span>;</div><div class="line">    <span class="keyword">let</span> <span class="keyword">mut</span> error1 = <span class="number">0.0</span>;</div><div class="line">    <span class="keyword">let</span> m = x.len();</div><div class="line"></div><div class="line">    <span class="keyword">let</span> <span class="keyword">mut</span> theta = (<span class="number">0.0</span>, <span class="number">0.0</span>);</div><div class="line"></div><div class="line">    <span class="keyword">loop</span> &#123;</div><div class="line">      <span class="comment">// 遍历数据集，不断更新theta值</span></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span>..m &#123;</div><div class="line">          <span class="comment">//带入，计算并更新系数</span></div><div class="line">            <span class="keyword">let</span> diff = theta.<span class="number">0</span> + theta.<span class="number">1</span> * x[i].<span class="number">1</span> - y[i];</div><div class="line">            theta.<span class="number">0</span> = theta.<span class="number">0</span> - alpha * diff * x[i].<span class="number">0</span>;</div><div class="line">            theta.<span class="number">1</span> = theta.<span class="number">1</span> - alpha * diff * x[i].<span class="number">1</span>;</div><div class="line"></div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">let</span> diff0: <span class="keyword">f32</span> = theta.<span class="number">0</span> - error0;</div><div class="line">        <span class="keyword">let</span> diff1: <span class="keyword">f32</span> = theta.<span class="number">1</span> - error1;</div><div class="line">        <span class="keyword">if</span> diff0.abs() &lt; epsilon &amp;&amp; diff1.abs() &lt; epsilon &#123;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        error0 = theta.<span class="number">0</span>;</div><div class="line">        error1 = theta.<span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="built_in">println!</span>(<span class="string">"&#123;:?&#125;"</span>, theta);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>明白了梯度下降算法，那么神经网络中的BP算法便不是问题。<br>BP算法的本质，依旧是梯度下降，按照链式求导的法则，依次求得各个层的权重对损失函数的影响。<br>这个值得进一步说明，以前不明白BP算法，那大概是因为我没认真看，畏于各种数学符号，实在是对不起我的头脑。<br>现在再看，就很疑惑，为什么我以前不明白BP算法。</p>
+        <p>快速幂算法是计算幂的常用分治算法。从共性上讲，快速斐波那契数列计算也归到此类中。<br><a id="more"></a></p>
+<h3 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h3><figure class="highlight rust"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">trait</span> <span class="title">Semigroup</span></span>&#123;</div><div class="line">  <span class="function"><span class="keyword">fn</span> <span class="title">append</span></span>(&amp;<span class="keyword">self</span>,x: &amp;<span class="keyword">Self</span>) -&gt; <span class="keyword">Self</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">impl</span> Semigroup <span class="keyword">for</span> <span class="keyword">i64</span> &#123;</div><div class="line">  <span class="function"><span class="keyword">fn</span> <span class="title">append</span></span>(&amp;<span class="keyword">self</span>, x: &amp;<span class="keyword">i64</span>) -&gt; <span class="keyword">i64</span>&#123;</div><div class="line">    <span class="keyword">self</span> * x</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="meta">#[derive(Debug,Copy,Clone)]</span></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Matrix2X2</span></span>&#123;</div><div class="line">  a11: <span class="keyword">i64</span>,</div><div class="line">  a12: <span class="keyword">i64</span>,</div><div class="line">  a21: <span class="keyword">i64</span>,</div><div class="line">  a22: <span class="keyword">i64</span>,</div><div class="line">&#125;</div><div class="line"><span class="keyword">impl</span> Matrix2X2 &#123;</div><div class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">new</span></span>(a11: <span class="keyword">i64</span>,a12: <span class="keyword">i64</span>,a21: <span class="keyword">i64</span>,a22: <span class="keyword">i64</span>) -&gt; Matrix2X2&#123;</div><div class="line">        Matrix2X2&#123;a11:a11,a12:a12,a21:a21,a22:a22&#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">impl</span> Semigroup <span class="keyword">for</span> Matrix2X2 &#123;</div><div class="line">  <span class="function"><span class="keyword">fn</span> <span class="title">append</span></span>(&amp;<span class="keyword">self</span>,x: &amp;Matrix2X2) -&gt; Matrix2X2&#123;</div><div class="line">    Matrix2X2::new(<span class="keyword">self</span>.a11*x.a11+<span class="keyword">self</span>.a12*x.a21,</div><div class="line">                   <span class="keyword">self</span>.a11*x.a12+<span class="keyword">self</span>.a12*x.a22,</div><div class="line">                   <span class="keyword">self</span>.a21*x.a11+<span class="keyword">self</span>.a22*x.a21,</div><div class="line">                   <span class="keyword">self</span>.a21*x.a12+<span class="keyword">self</span>.a22*x.a22)</div><div class="line">               &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">fn</span> <span class="title">even</span></span>(x: <span class="keyword">i64</span>) -&gt; <span class="keyword">bool</span>&#123;</div><div class="line">    <span class="keyword">match</span> x &#123;</div><div class="line">        _ <span class="keyword">if</span> x%<span class="number">2</span>==<span class="number">0</span> =&gt; <span class="literal">true</span>,</div><div class="line">        _ =&gt; <span class="literal">false</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">fn</span> <span class="title">quick_pow</span></span>&lt;T: Semigroup + <span class="built_in">Copy</span>&gt;(x: &amp;T, n: <span class="keyword">i64</span>) -&gt; T&#123;</div><div class="line">  <span class="keyword">match</span> n &#123;</div><div class="line">    <span class="number">1</span> =&gt; *x,</div><div class="line">    _ <span class="keyword">if</span> even(n) =&gt; &#123;</div><div class="line">        <span class="keyword">let</span> a = quick_pow(x, n/<span class="number">2</span>);</div><div class="line">        a.append(&amp;a)</div><div class="line">    &#125;,</div><div class="line">    _ =&gt; &#123;</div><div class="line">        <span class="keyword">let</span> a = quick_pow(x, n-<span class="number">1</span>);</div><div class="line">        x.append(&amp;a)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">fn</span> <span class="title">main</span></span>()&#123;</div><div class="line">  <span class="keyword">let</span> a: <span class="keyword">i64</span> = <span class="number">2</span>;</div><div class="line">  <span class="keyword">let</span> aa = quick_pow(&amp;a, <span class="number">30</span>);</div><div class="line">  <span class="built_in">println!</span>(<span class="string">"&#123;:?&#125;"</span>, aa);</div><div class="line">  <span class="keyword">let</span> b = Matrix2X2::new(<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>);</div><div class="line">  <span class="keyword">let</span> bb = quick_pow(&amp;b, <span class="number">20</span>);</div><div class="line">  <span class="built_in">println!</span>(<span class="string">"&#123;:?&#125;"</span>, bb);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>从类型<code>i64</code>与<code>Matrix2X2</code>而言，他们的共性在于这两个类型中的元素都能构成半群，所以抽象出<code>Semigroup</code>这个特质，可以看到<code>i64</code>的乘法与<code>Matrix2X2</code>的乘法在半群定义下的描述，我们也可以针对这两种类型的加法做半群定义。自然，Rust已经为我们准备好了两个Trait，<code>std::ops::Add</code>与<code>std::ops::Mul</code>，基础类型已经实现了这两个特质，我们可以对<code>Matrix2X2</code>实现，然后就能以<code>*</code>和<code>+</code>来代替<code>append</code>。<br>在代码中，<code>Matrix2X2</code>自动获得了<code>Debug</code>、<code>Copy</code>和<code>Clone</code>特质，<code>Debug</code>是用来描述类型，<code>Copy</code>和<code>Clone</code>用来实现深复制，即先拷贝内容到新内存区域，然后将新内存区域和这个标识符绑定，而原资源的所有权不发生转移。</p>
 
       
     </div>
@@ -377,7 +375,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/算法/" rel="tag"># 算法</a>
+            <a href="/tags/Semigroup/" rel="tag"># Semigroup</a>
           
         </div>
       
@@ -386,8 +384,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/07/30/Rust学习 4/" rel="next" title="About OpenGL with Rust">
-                <i class="fa fa-chevron-left"></i> About OpenGL with Rust
+              <a href="/2016/06/20/Redox/" rel="next" title="Redox">
+                <i class="fa fa-chevron-left"></i> Redox
               </a>
             
           </div>
@@ -395,6 +393,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/07/Rust学习 3/" rel="prev" title="Rust学习 三">
+                Rust学习 三 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -441,8 +443,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.JPG"
@@ -506,6 +517,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Demo"><span class="nav-number">1.</span> <span class="nav-text">Demo</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>

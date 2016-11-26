@@ -1,0 +1,682 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Swift," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这一节我们将接触惰性求值。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift函数式编程 二">
+<meta property="og:url" content="http://mfasta.com/2016/05/25/Swift函数式编程 2/index.html">
+<meta property="og:site_name" content="魔法师の高塔">
+<meta property="og:description" content="这一节我们将接触惰性求值。">
+<meta property="og:updated_time" content="2016-08-13T18:42:22.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Swift函数式编程 二">
+<meta name="twitter:description" content="这一节我们将接触惰性求值。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://mfasta.com/2016/05/25/Swift函数式编程 2/"/>
+
+
+
+
+
+  <title> Swift函数式编程 二 | 魔法师の高塔 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">魔法师の高塔</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">借我心羽 到绝高处 环抱烟霞独一人 拓吾眼思 出樊篱间 纵横意气越千载</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://mfasta.com/2016/05/25/Swift函数式编程 2/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="周晓林">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.JPG">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="魔法师の高塔">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="魔法师の高塔" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Swift函数式编程 二
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-05-25T13:25:11+08:00">
+                2016-05-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/编程/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这一节我们将接触惰性求值。<br><a id="more"></a></p>
+<h3 id="惰性求值"><a href="#惰性求值" class="headerlink" title="惰性求值"></a>惰性求值</h3><p>构造如下函数：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">List</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">take</span><span class="params">(n : Int)</span></span> -&gt; <span class="type">List</span>&lt;<span class="type">T</span>&gt;&#123;</div><div class="line">        <span class="keyword">if</span>(n == <span class="number">0</span>)&#123;</div><div class="line">            <span class="keyword">return</span> <span class="type">List</span>.<span class="type">Nil</span></div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="keyword">switch</span> <span class="keyword">self</span>&#123;</div><div class="line">            <span class="keyword">case</span> <span class="type">List</span>.<span class="type">Nil</span>:</div><div class="line">                <span class="keyword">return</span> <span class="type">List</span>.<span class="type">Nil</span></div><div class="line">            <span class="keyword">case</span> <span class="type">List</span>.<span class="type">Cons</span>(<span class="keyword">let</span> head, <span class="keyword">let</span> tail):</div><div class="line">                <span class="keyword">return</span> <span class="type">List</span>.<span class="type">Cons</span>(head, tail.take(n-<span class="number">1</span>))</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">oneslist</span><span class="params">()</span></span> -&gt; <span class="type">List</span>&lt;<span class="type">Int</span>&gt; &#123;</div><div class="line">    <span class="keyword">return</span> <span class="type">List</span>.<span class="type">Cons</span>(<span class="number">1</span>, oneslist())</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>很显然，我们可以通过<code>take</code>来获取一个<code>List</code>的前n个值。那么，对于<code>oneslist</code>这个函数，<code>take</code>起作用吗？<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">oneslist().take(<span class="number">5</span>)</div></pre></td></tr></table></figure></p>
+<p>答案当然是不起作用。<br>为什么？<br>因为<code>oneslist</code>是严格求值的，也就是它必须计算完成后才会执行<code>take</code>,但<code>oneslist</code>是个无穷序列。<br>这个时候，就必须使用惰性求值这个特性。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">Stream</span>&lt;<span class="title">T</span>&gt;</span>&#123;</div><div class="line">    <span class="keyword">case</span> <span class="type">Empty</span></div><div class="line">    <span class="keyword">case</span> <span class="type">Cons</span>(<span class="type">T</span>,() -&gt; <span class="type">Stream</span>&lt;<span class="type">T</span>&gt;)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">cons</span>&lt;T&gt;<span class="params">(h : T , @autoclosure<span class="params">(escaping)</span></span></span> <span class="number">_</span> t : () -&gt; <span class="type">Stream</span>&lt;<span class="type">T</span>&gt;) -&gt; <span class="type">Stream</span>&lt;<span class="type">T</span>&gt;&#123;</div><div class="line">    <span class="keyword">return</span> <span class="type">Stream</span>.<span class="type">Cons</span>(h, t)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可以看到Stream的结构和List是非常相似的，区别在于Cons里的构造是闭包式的，事实上，Swift的惰性求值本质就是闭包。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Stream</span></span>&#123;</div><div class="line">    <span class="keyword">var</span> empty: <span class="type">Stream</span>&lt;<span class="type">T</span>&gt;&#123;</div><div class="line">        <span class="keyword">return</span> <span class="type">Stream</span>.<span class="type">Empty</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> tail : <span class="type">Stream</span>&lt;<span class="type">T</span>&gt; &#123;</div><div class="line">        <span class="keyword">switch</span> <span class="keyword">self</span>&#123;</div><div class="line">        <span class="keyword">case</span> .<span class="type">Empty</span>:</div><div class="line">            <span class="keyword">return</span> empty</div><div class="line">        <span class="keyword">case</span> .<span class="type">Cons</span>(<span class="number">_</span>,<span class="keyword">let</span> tail):</div><div class="line">            <span class="keyword">return</span> tail()</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> array : [<span class="type">T</span>] &#123;</div><div class="line">        <span class="keyword">switch</span> <span class="keyword">self</span>&#123;</div><div class="line">        <span class="keyword">case</span> .<span class="type">Empty</span>:</div><div class="line">            <span class="keyword">return</span> []</div><div class="line">        <span class="keyword">case</span> .<span class="type">Cons</span>(<span class="keyword">let</span> h, <span class="keyword">let</span> t):</div><div class="line">            <span class="keyword">return</span> [h] + t().array</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">take</span><span class="params">(n : Int)</span></span> -&gt; <span class="type">Stream</span>&lt;<span class="type">T</span>&gt;&#123;</div><div class="line">        <span class="keyword">if</span>(n == <span class="number">0</span>)&#123;</div><div class="line">            <span class="keyword">return</span>  empty</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="keyword">switch</span> <span class="keyword">self</span> &#123;</div><div class="line">            <span class="keyword">case</span> .<span class="type">Empty</span>:</div><div class="line">                <span class="keyword">return</span> <span class="type">Stream</span>.<span class="type">Empty</span></div><div class="line">            <span class="keyword">case</span> .<span class="type">Cons</span>(<span class="keyword">let</span> h, <span class="keyword">let</span> t):</div><div class="line">                <span class="keyword">return</span> <span class="type">Stream</span>.<span class="type">Cons</span>(h, &#123;t().take(n-<span class="number">1</span>)&#125;)</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>对Stream的extension里写了几个函数，array是为了更好地展示Stream的内容。<br>接下来，写一个Stream版的oneslist函数。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">ones</span><span class="params">()</span></span> -&gt; <span class="type">Stream</span>&lt;<span class="type">Int</span>&gt;&#123;</div><div class="line">    <span class="keyword">return</span> cons(<span class="number">1</span>, ones())</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这个函数会执行take吗？<br>当然，他会执行take，并给出了正确的答案。<br>为什么会有这样的不同？这就是求值策略的区别，惰性求值总是在值需要的地方才会求出这个值。<br>如何表达一个自然数序列呢？</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Stream</span></span>&#123;</div><div class="line">  <span class="function"><span class="keyword">func</span> <span class="title">map</span>&lt;B&gt;<span class="params">(f: T -&gt; B)</span></span> -&gt; <span class="type">Stream</span>&lt;<span class="type">B</span>&gt; &#123;</div><div class="line">    <span class="keyword">switch</span> <span class="keyword">self</span> &#123;</div><div class="line">    <span class="keyword">case</span> .<span class="type">Empty</span>:</div><div class="line">        <span class="keyword">return</span> <span class="type">Stream</span>&lt;<span class="type">B</span>&gt;.<span class="type">Empty</span></div><div class="line">    <span class="keyword">case</span> .<span class="type">Cons</span>(<span class="keyword">let</span> h, <span class="keyword">let</span> t):</div><div class="line">        <span class="keyword">return</span> cons(f(h), t().<span class="built_in">map</span>(f))</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="function"><span class="keyword">func</span> <span class="title">filter</span><span class="params">(f: T -&gt; Bool)</span></span> -&gt; <span class="type">Stream</span>&lt;<span class="type">T</span>&gt; &#123;</div><div class="line">    <span class="keyword">switch</span> <span class="keyword">self</span> &#123;</div><div class="line">    <span class="keyword">case</span> .<span class="type">Empty</span>:</div><div class="line">        <span class="keyword">return</span> empty</div><div class="line">    <span class="keyword">case</span> .<span class="type">Cons</span>(<span class="keyword">let</span> h, <span class="keyword">let</span> t):</div><div class="line">        <span class="keyword">if</span> f(h) &#123;</div><div class="line">            <span class="keyword">return</span> cons(h, t().<span class="built_in">filter</span>(f))</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="keyword">return</span> t().<span class="built_in">filter</span>(f)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">nature</span><span class="params">()</span></span> -&gt; <span class="type">Stream</span>&lt;<span class="type">Int</span>&gt;&#123;</div><div class="line">    <span class="keyword">return</span> cons(<span class="number">2</span>, nature().<span class="built_in">map</span>(&#123; $<span class="number">0</span> + <span class="number">1</span> &#125;))</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>那么，我们做一个练习，写一个延迟求值版的斐波那契数列。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">zipWithAdd</span><span class="params">(x : Stream&lt;Int&gt;,<span class="number">_</span> y: Stream&lt;Int&gt;)</span></span> -&gt; <span class="type">Stream</span>&lt;<span class="type">Int</span>&gt;&#123;</div><div class="line">    <span class="keyword">switch</span> x&#123;</div><div class="line">    <span class="keyword">case</span> <span class="type">Stream</span>.<span class="type">Cons</span>(<span class="keyword">let</span> <span class="built_in">c</span>,<span class="keyword">let</span> cs):</div><div class="line">        <span class="keyword">switch</span> y&#123;</div><div class="line">        <span class="keyword">case</span> <span class="type">Stream</span>.<span class="type">Cons</span>(<span class="keyword">let</span> d,<span class="keyword">let</span> ds):</div><div class="line">            <span class="keyword">return</span> cons(<span class="built_in">c</span>+d, zipWithAdd(cs(), ds()))</div><div class="line">        <span class="keyword">case</span> <span class="number">_</span>:</div><div class="line">            <span class="keyword">return</span> <span class="type">Stream</span>.<span class="type">Empty</span></div><div class="line">        &#125;</div><div class="line">    <span class="keyword">case</span> <span class="number">_</span>:</div><div class="line">        <span class="keyword">return</span> <span class="type">Stream</span>.<span class="type">Empty</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">fibs</span><span class="params">()</span></span> -&gt; <span class="type">Stream</span>&lt;<span class="type">Int</span>&gt;&#123;</div><div class="line">    <span class="keyword">return</span> cons(<span class="number">0</span>, cons(<span class="number">1</span>, zipWithAdd(fibs(), fibs().tail)))</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>写一个筛法求质数<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">nature</span><span class="params">()</span></span> -&gt; <span class="type">Stream</span>&lt;<span class="type">Int</span>&gt;&#123;</div><div class="line">    <span class="keyword">return</span> cons(<span class="number">2</span>, nature().<span class="built_in">map</span>&#123; $<span class="number">0</span> + <span class="number">1</span> &#125;)</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">sieve</span><span class="params">(stream : Stream&lt;Int&gt;)</span></span> -&gt; <span class="type">Stream</span>&lt;<span class="type">Int</span>&gt; &#123;</div><div class="line">    <span class="keyword">switch</span> stream &#123;</div><div class="line">    <span class="keyword">case</span> .<span class="type">Empty</span>:</div><div class="line">        <span class="keyword">return</span> <span class="type">Stream</span>&lt;<span class="type">Int</span>&gt;.<span class="type">Empty</span></div><div class="line">    <span class="keyword">case</span> .<span class="type">Cons</span>(<span class="keyword">let</span> h, <span class="keyword">let</span> t):</div><div class="line">        <span class="keyword">return</span> cons(h, sieve(t().<span class="built_in">filter</span>(&#123; $<span class="number">0</span> % h() != <span class="number">0</span> &#125;)))</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">sieve(nature())</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Swift/" rel="tag"># Swift</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/25/Swift函数式编程 1/" rel="next" title="Swift函数式编程 一">
+                <i class="fa fa-chevron-left"></i> Swift函数式编程 一
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/05/25/Swift函数式编程 3/" rel="prev" title="Swift函数式编程-三">
+                Swift函数式编程-三 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.JPG"
+               alt="周晓林" />
+          <p class="site-author-name" itemprop="name">周晓林</p>
+          <p class="site-description motion-element" itemprop="description">学习，背诵，提高知识水平。跑步，讲话，与人谈笑风生。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ZhouXiaolin" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#惰性求值"><span class="nav-number">1.</span> <span class="nav-text">惰性求值</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2013 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">周晓林</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
