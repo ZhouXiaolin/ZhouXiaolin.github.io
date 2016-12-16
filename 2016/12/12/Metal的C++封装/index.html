@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Monad," />
+  <meta name="keywords" content="Metal," />
 
 
 
@@ -84,16 +84,16 @@
 
 
 
-<meta name="description" content="我十分喜欢用一个例子来帮助理解Monad这个概念。">
+<meta name="description" content="boost::compute用c++封装了opencl，我正读他的代码，结构条理令人愉悦。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Rust学习 3">
-<meta property="og:url" content="http://mfasta.com/2016/07/07/Rust学习 3/index.html">
+<meta property="og:title" content="Metal的C++封装">
+<meta property="og:url" content="http://mfasta.com/2016/12/12/Metal的C++封装/index.html">
 <meta property="og:site_name" content="魔法师の高塔">
-<meta property="og:description" content="我十分喜欢用一个例子来帮助理解Monad这个概念。">
-<meta property="og:updated_time" content="2016-11-26T07:32:42.000Z">
+<meta property="og:description" content="boost::compute用c++封装了opencl，我正读他的代码，结构条理令人愉悦。">
+<meta property="og:updated_time" content="2016-12-11T18:04:39.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Rust学习 3">
-<meta name="twitter:description" content="我十分喜欢用一个例子来帮助理解Monad这个概念。">
+<meta name="twitter:title" content="Metal的C++封装">
+<meta name="twitter:description" content="boost::compute用c++封装了opencl，我正读他的代码，结构条理令人愉悦。">
 
 
 
@@ -121,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="http://mfasta.com/2016/07/07/Rust学习 3/"/>
+  <link rel="canonical" href="http://mfasta.com/2016/12/12/Metal的C++封装/"/>
 
 
 
 
 
-  <title> Rust学习 3 | 魔法师の高塔 </title>
+  <title> Metal的C++封装 | 魔法师の高塔 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -258,7 +258,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://mfasta.com/2016/07/07/Rust学习 3/">
+  <link itemprop="mainEntityOfPage" href="http://mfasta.com/2016/12/12/Metal的C++封装/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="一名魔法师">
@@ -282,7 +282,7 @@
             
             
               
-                Rust学习 3
+                Metal的C++封装
               
             
           </h1>
@@ -295,8 +295,8 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-07-07T18:12:00+08:00">
-                2016-07-07
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-12T01:04:44+08:00">
+                2016-12-12
               </time>
             
 
@@ -329,8 +329,8 @@
             
               <span class="post-comments-count">
                 <span class="post-meta-divider">|</span>
-                <a href="/2016/07/07/Rust学习 3/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/07/Rust学习 3/" itemprop="commentCount"></span>
+                <a href="/2016/12/12/Metal的C++封装/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/12/Metal的C++封装/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -356,10 +356,8 @@
       
 
       
-        <p>我十分喜欢用一个例子来帮助理解Monad这个概念。<br><a id="more"></a></p>
-<h3 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h3><figure class="highlight rust"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">Expr</span></span> &#123;</div><div class="line">    Num(<span class="keyword">i32</span>),</div><div class="line">    Neg(<span class="built_in">Box</span>&lt;Expr&gt;),</div><div class="line">    Add(<span class="built_in">Box</span>&lt;Expr&gt;,<span class="built_in">Box</span>&lt;Expr&gt;),</div><div class="line">    Div(<span class="built_in">Box</span>&lt;Expr&gt;,<span class="built_in">Box</span>&lt;Expr&gt;)</div><div class="line">&#125;</div><div class="line"><span class="keyword">impl</span> Expr&#123;</div><div class="line">  <span class="function"><span class="keyword">fn</span> <span class="title">eval</span></span>(&amp;<span class="keyword">self</span>) -&gt; <span class="built_in">Option</span>&lt;<span class="keyword">i32</span>&gt;&#123;</div><div class="line">    <span class="keyword">match</span> *<span class="keyword">self</span> &#123;</div><div class="line">      Expr::Num(a) =&gt; <span class="literal">Some</span>(a),</div><div class="line">      Expr::Neg(<span class="keyword">ref</span> a) =&gt; &#123;</div><div class="line">        <span class="keyword">match</span> a.eval() &#123;</div><div class="line">          <span class="literal">Some</span>(aa) =&gt; <span class="literal">Some</span>(<span class="number">0</span> - aa),</div><div class="line">          _ =&gt; <span class="literal">None</span></div><div class="line">        &#125;</div><div class="line">      &#125;,</div><div class="line">      Expr::Add(<span class="keyword">ref</span> a,<span class="keyword">ref</span> b) =&gt; &#123;</div><div class="line">        <span class="keyword">match</span> a.eval() &#123;</div><div class="line">          <span class="literal">Some</span>(aa) =&gt; &#123;</div><div class="line">            <span class="keyword">match</span> b.eval() &#123;</div><div class="line">              <span class="literal">Some</span>(bb) =&gt; <span class="literal">Some</span>(aa+bb),</div><div class="line">              _ =&gt; <span class="literal">None</span></div><div class="line">            &#125;</div><div class="line">          &#125;,</div><div class="line">          _ =&gt; <span class="literal">None</span></div><div class="line">        &#125;</div><div class="line">      &#125;,</div><div class="line">      Expr::Div(<span class="keyword">ref</span> a,<span class="keyword">ref</span> b) =&gt; &#123;</div><div class="line">        <span class="keyword">match</span> b.eval() &#123;</div><div class="line">          <span class="literal">Some</span>(<span class="number">0</span>) | <span class="literal">None</span> =&gt; <span class="literal">None</span>,</div><div class="line">          <span class="literal">Some</span>(bb) =&gt; &#123;</div><div class="line">            <span class="keyword">match</span> a.eval() &#123;</div><div class="line">              <span class="literal">Some</span>(aa) =&gt; <span class="literal">Some</span>(aa/bb),</div><div class="line">              _ =&gt; <span class="literal">None</span></div><div class="line">            &#125;</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">fn</span> <span class="title">main</span></span>() &#123;</div><div class="line">  <span class="keyword">let</span> a: Expr = Expr::Num(<span class="number">5</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这种写法冗长，令人痛苦的。如果我们细细观察，一定可以发现，如果一个<code>Expr</code>中<code>eval</code>函数有值的话，这个值会在下面的计算中包装进<code>Option</code>,我们可以将这个计算抽象为<code>i32 -&gt; (i32 -&gt; Option&lt;i32&gt;) -&gt; Option&lt;i32&gt;</code>，显然，Rust已经为我们准备好了这个函数，<code>and_then</code>，名字非常恰当。<br>另，补全，准备下一章为这个写个解析。<br><figure class="highlight rust"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">Expr</span></span> &#123;</div><div class="line">    Num(<span class="keyword">i32</span>),</div><div class="line">    Neg(<span class="built_in">Box</span>&lt;Expr&gt;),</div><div class="line">    Add(<span class="built_in">Box</span>&lt;Expr&gt;,<span class="built_in">Box</span>&lt;Expr&gt;),</div><div class="line">    Sub(<span class="built_in">Box</span>&lt;Expr&gt;,<span class="built_in">Box</span>&lt;Expr&gt;),</div><div class="line">    Mul(<span class="built_in">Box</span>&lt;Expr&gt;,<span class="built_in">Box</span>&lt;Expr&gt;),</div><div class="line">    Div(<span class="built_in">Box</span>&lt;Expr&gt;,<span class="built_in">Box</span>&lt;Expr&gt;)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">impl</span> Expr &#123;</div><div class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">eval</span></span>(&amp;<span class="keyword">self</span>) -&gt; <span class="built_in">Option</span>&lt;<span class="keyword">i32</span>&gt; &#123;</div><div class="line">        <span class="keyword">match</span> *<span class="keyword">self</span> &#123;</div><div class="line">            Expr::Num(a) =&gt; <span class="literal">Some</span>(a),</div><div class="line">            Expr::Neg(<span class="keyword">ref</span> a) =&gt; a.eval().and_then(|x|<span class="literal">Some</span>(-x)),</div><div class="line">            Expr::Add(<span class="keyword">ref</span> a, <span class="keyword">ref</span> b) =&gt; a.eval().and_then(|x|b.eval().and_then(|y|<span class="literal">Some</span>(x+y))),</div><div class="line">            Expr::Sub(<span class="keyword">ref</span> a, <span class="keyword">ref</span> b) =&gt; a.eval().and_then(|x|b.eval().and_then(|y|<span class="literal">Some</span>(x-y))),</div><div class="line">            Expr::Mul(<span class="keyword">ref</span> a, <span class="keyword">ref</span> b) =&gt; a.eval().and_then(|x|b.eval().and_then(|y|<span class="literal">Some</span>(x*y))),</div><div class="line">            Expr::Div(<span class="keyword">ref</span> a, <span class="keyword">ref</span> b) =&gt; a.eval().and_then(|x|b.eval().and_then(|y|</div><div class="line">                <span class="keyword">match</span> y &#123;</div><div class="line">                    <span class="number">0</span> =&gt; <span class="literal">None</span>,</div><div class="line">                    _ =&gt; <span class="literal">Some</span>(x/y)</div><div class="line">                &#125;</div><div class="line">            ))</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">fn</span> <span class="title">main</span></span>() &#123;</div><div class="line">    <span class="keyword">let</span> a: Expr = Expr::Num(<span class="number">0</span>);</div><div class="line">    <span class="keyword">let</span> b: Expr = Expr::Num(<span class="number">12</span>);</div><div class="line">    <span class="keyword">let</span> c: Expr = Expr::Div(<span class="built_in">Box</span>::new(b),<span class="built_in">Box</span>::new(a));</div><div class="line">    <span class="keyword">let</span> d: Expr = Expr::Num(<span class="number">8</span>);</div><div class="line">    <span class="keyword">let</span> e: Expr = Expr::Div(<span class="built_in">Box</span>::new(d),<span class="built_in">Box</span>::new(c));</div><div class="line">    <span class="built_in">println!</span>(<span class="string">"&#123;:?&#125;"</span>, e.eval().ok_or(<span class="string">"Error"</span>));</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>优雅。</p>
+        <p>boost::compute用c++封装了opencl，我正读他的代码，结构条理令人愉悦。<br><a id="more"></a><br>metal的代码是objc与swift原生的，但objc可以兼容c++代码，所以把metal按boost::compute的方式封装起来，对自己也是一个锻炼，看boost::compute的结构，我设计的metal::compute会有device、command_queue等结构。GPU上的数据可以封装为vector，std::vector应该可以与metal::compute::vector交换数据。metal文件里写的函数，就是operator，基本的运算可以重载。</p>
+<h3 id="code"><a href="#code" class="headerlink" title="code"></a>code</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">using</span> compute = metal::compute;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> * argv[])</span> </span>&#123;</div><div class="line">  <span class="comment">// get default device and setup command queue</span></div><div class="line">  compute::device device = compute::system::default_device();</div><div class="line">  compute::<span class="function">context <span class="title">context</span><span class="params">(device)</span></span>;</div><div class="line">  compute::<span class="function">command_queue <span class="title">queue</span><span class="params">(context,device)</span></span>;</div><div class="line"></div><div class="line">  <span class="comment">// create vector on host</span></div><div class="line">  <span class="keyword">unsigned</span> len = <span class="number">5</span>;</div><div class="line">  <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; host_vector1 = &#123;<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>&#125;;</div><div class="line">  <span class="comment">// create vector on device</span></div><div class="line">  compute::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; device_vector1(len,context);</div><div class="line">  compute::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; device_vector2(len,context);</div><div class="line">  compute::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; device_vector3(len,context);</div><div class="line">  <span class="comment">// copy data from host to device</span></div><div class="line">  compute::copy(host_vector.begin(), host_vector.end(), device_vector1.begin(),context);</div><div class="line">  <span class="comment">// fill data to device vector</span></div><div class="line">  compute::fill(device_vector2.begin(),device_vector2.end(), rand);</div><div class="line"></div><div class="line">  <span class="comment">// add operator</span></div><div class="line">  device_vector3 = device_vector2 + device_vector1;</div><div class="line"></div><div class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span>&lt;&lt;device_vector3[<span class="number">2</span>]&lt;&lt;<span class="built_in">std</span>::<span class="built_in">endl</span>;</div><div class="line">  <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -383,7 +381,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Monad/" rel="tag"># Monad</a>
+            <a href="/tags/Metal/" rel="tag"># Metal</a>
           
         </div>
       
@@ -392,8 +390,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/07/05/Rust学习 2/" rel="next" title="Rust学习 2">
-                <i class="fa fa-chevron-left"></i> Rust学习 2
+              <a href="/2016/12/05/表达式模板/" rel="next" title="表达式模板">
+                <i class="fa fa-chevron-left"></i> 表达式模板
               </a>
             
           </div>
@@ -402,8 +400,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/07/27/快速傅里叶变换/" rel="prev" title="快速傅里叶变换">
-                快速傅里叶变换 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/12/16/和题-虚构的准绳/" rel="prev" title="和题--虚构的准绳">
+                和题--虚构的准绳 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -419,10 +417,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2016/07/07/Rust学习 3/"
-     data-title="Rust学习 3"
+        <div class="ds-share flat" data-thread-key="2016/12/12/Metal的C++封装/"
+     data-title="Metal的C++封装"
      data-content=""
-     data-url="http://mfasta.com/2016/07/07/Rust学习 3/">
+     data-url="http://mfasta.com/2016/12/12/Metal的C++封装/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -449,8 +447,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/07/07/Rust学习 3/"
-           data-title="Rust学习 3" data-url="http://mfasta.com/2016/07/07/Rust学习 3/">
+      <div class="ds-thread" data-thread-key="2016/12/12/Metal的C++封装/"
+           data-title="Metal的C++封装" data-url="http://mfasta.com/2016/12/12/Metal的C++封装/">
       </div>
     
   </div>
@@ -558,7 +556,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Demo"><span class="nav-number">1.</span> <span class="nav-text">Demo</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#code"><span class="nav-number">1.</span> <span class="nav-text">code</span></a></li></ol></div>
             
 
           </div>
